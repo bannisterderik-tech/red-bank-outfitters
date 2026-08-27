@@ -325,7 +325,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     hero.insertBefore(wrap, hero.firstChild);
 
     v.addEventListener('playing', function () { hero.classList.add('video-ready'); });
-    v.addEventListener('pause', function () { hero.classList.remove('video-ready'); });
+    /* Deliberately no 'pause' handler that hides the video: browsers park
+       background video intermittently, and dropping the class each time
+       would cross-fade the hero back and forth. A paused video just holds
+       its frame, which is fine. Only a real load error falls back. */
+    v.addEventListener('error', function () { hero.classList.remove('video-ready'); });
+    v.addEventListener('pause', function () { setTimeout(attempt, 400); });
 
     /* Browsers may refuse or pause a muted background video (Chrome parks
        video-only media to save power when the tab is hidden). Never delete

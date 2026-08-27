@@ -306,9 +306,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     var hero = document.querySelector('header.hero');
     if (!hero) return;                                   // page-heroes keep their stills
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(min-width: 900px)').matches) return;   // don't push 5MB to phones
+    /* Phones get a lighter 720p cut rather than being excluded. Still bail
+       out on Save-Data or a genuinely slow link. */
     var conn = navigator.connection;
     if (conn && (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || ''))) return;
+    var small = window.matchMedia('(max-width: 899px)').matches;
 
     var wrap = document.createElement('div');
     wrap.className = 'hero-video';
@@ -320,7 +322,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     v.setAttribute('aria-hidden', 'true');
     v.preload = 'metadata';
     v.poster = href('img/flythrough-poster.jpg');
-    v.src = href('video/lodge-flythrough.mp4');
+    v.src = href(small ? 'video/lodge-flythrough-mobile.mp4' : 'video/lodge-flythrough.mp4');
     wrap.appendChild(v);
     hero.insertBefore(wrap, hero.firstChild);
 

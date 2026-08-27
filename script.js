@@ -34,7 +34,7 @@ const img = (name) => `url("${rootPrefix}img/${name}")`;
 
 const imgs = {
   hero:   img('hero-oak.jpg'),
-  about:  img('ranch-dog.jpg'),
+  about:  img('lodge-exterior.jpg'),
   room1:  img('lodge.jpg'),
   room2:  img('bunkhouse-porch.jpg'),
   room3:  img('after-supper.jpg'),

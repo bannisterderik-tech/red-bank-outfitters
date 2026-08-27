@@ -276,10 +276,10 @@ def related_html(depth, cards):
         bits.append(f'''<a class="rel" href="{p(href)}"><div class="img" style="background-image:url('{p("img/"+img)}')"></div><h3>{title}</h3><p>{blurb}</p></a>''')
     return f'<div class="related"><h2>Also on the ranch</h2><div class="rel-grid">{"".join(bits)}</div></div>'
 
-def page(depth, title, desc, active, crumb, h1, lead, meta, img, img_alt, prose, factrows, related, extra_aside=None, generated=False):
+def page(depth, title, desc, active, crumb, h1, lead, meta, img, img_alt, prose, factrows, related, extra_aside=None, generated=False, gen_note=None):
     p = lambda x: r(depth, x)
     meta_html = "".join(f'<div><div class="k">{k}</div><div class="v">{v}</div></div>' for k, v in meta)
-    gen = f'<p class="gen-note">Atmosphere photograph of Tehama County oak country — not a picture of a Red Bank hunt.</p>' if generated else ""
+    gen = f'<p class="gen-note">{gen_note or "Atmosphere photograph of Tehama County oak country — not a picture of a Red Bank hunt."}</p>' if generated else ""
     body = f'''
 <header class="page-hero">
   <div class="ph-bg" style="background-image:url('{p("img/"+img)}')" role="img" aria-label="{img_alt}"></div>
@@ -599,7 +599,7 @@ add("hunts.html", page(0, "The Hunt — Red Bank Outfitters",
 "Two guns. One guide. <em>Three or four dogs.</em>",
 "Thoughts of Southern-style quail hunting call up field edges and head-high brush. It does not have to be a memory.",
 [("Party","2 hunters"),("Guide","1"),("Dogs","3–4")],
-"dogs-water.jpg", "Pointers working water on the ranch",
+"hunt-ridge.jpg", "Oak savanna ridges west of Red Bluff at first light, fog in the creek bottom",
 '''<p class="deck">Since 1965 the goal at Red Bank has been the quail hunt. We do not mix groups. That is the whole point of coming.</p>
 <p>We can put 14 people in the main lodge and 6 in the bunkhouse. There is no minimum group size. The trip is about your enjoyment.</p>
 <p>A typical upland party is two guests, one guide, and three or four dogs. The guides have years on these dogs and this ground. If you bring your own dogs they are welcome — there is a kennel at both buildings.</p>
@@ -615,7 +615,7 @@ add("hunts.html", page(0, "The Hunt — Red Bank Outfitters",
 <li><a href="hunts/wild-hog.html">Wild hog</a> — UTV or on foot, 18,000 acres</li>
 </ul>''',
 [("2","Guests per party"),("1","Guide"),("3–4","Dogs")],
-DEFAULT_REL))
+DEFAULT_REL, generated=True))
 
 add("upland.html", page(0, "Upland Game — Red Bank Outfitters",
 "Bobwhite, valley and mountain quail, chukar, pheasant, European-style drives, and Rio Grande turkey in Red Bluff, California.",
@@ -624,7 +624,7 @@ add("upland.html", page(0, "Upland Game — Red Bank Outfitters",
 "Upland on the <em>Red Bank</em> ranch.",
 "A menu of California birds, walked up or driven, with dogs that live for it.",
 [("Species","7"),("Dogs","On site"),("Season","Call")],
-"dogs-water.jpg", "Ranch pointers in a stock pond under valley oaks",
+"upland-cover.jpg", "Golden bunch grass and brush at the edge of a blue oak grove",
 '''<p class="deck">Red Bank was built as a quail club. Everything else on the ranch grew out of that.</p>
 <p>Bobwhite is the plantation walk-up: two guns, a guide, a brace of dogs, field edges and flats of head-height brush. Valley quail is a different animal — wild birds, a short California season from October through January, hunted Texas-style on 5,000 acres just north of the ranch, groups of up to four, out of utility vehicles. Mountain quail live in the chaparral a 30-minute drive west; you listen at daylight for a bird more often heard than seen.</p>
 <p>Pheasant comes two ways: a walk-up (minimum two shooters) and a European-style drive with pegs, beaters, and pickers-up, four to twelve guns, at least a hundred birds. Chukar run the steep banks. Rio Grande turkey has a fall season (tom or hen) and a spring season (bearded gobblers only), under California Fish and Wildlife rules.</p>
@@ -638,7 +638,7 @@ add("upland.html", page(0, "Upland Game — Red Bank Outfitters",
 <li><a href="upland/turkey.html">Wild turkey</a></li>
 </ul>''',
 [("2+1","Guns and a guide"),("Oct–Jan","Valley quail"),("4–12","Drive guns")],
-DEFAULT_REL))
+DEFAULT_REL, generated=True))
 
 add("big-game.html", page(0, "Big Game — Red Bank Outfitters",
 "Blacktail deer and wild hog hunts on 18,000 acres west of Red Bluff, California.",
@@ -773,14 +773,14 @@ add("weddings.html", page(0, "Weddings — Red Bank Outfitters",
 "A ranch wedding on <em>Red Bank Creek.</em>",
 "Creek bluffs, a 2,200-square-foot covered patio, and an 1,800-square-foot lodge. Schedule a visit.",
 [("Patio","2,200 sq ft"),("Lodge","1,800 sq ft"),("Since","1965")],
-"creek.jpg", "Red earth creek bluffs in oak country, Tehama County",
+"pavilion-dusk.jpg", "The lodge pavilion at dusk — string lights, fire pit and covered patio",
 '''<p class="deck">After years of corporate outings, the ranch opened as a wedding venue. Rustic, private, and six miles from town.</p>
 <p>The backdrop is the Red Bank Creek bluffs. A 2,200-square-foot covered patio holds dinner and dancing. The 1,800-square-foot lodge has a private bathroom for the bridal party and a separate bathroom for the groomsmen.</p>
 <p>Founded in 1965. Call for a site visit. Do not mail a deposit until you have walked the patio.</p>''',
 [("2,200","Sq ft patio"),("1,800","Sq ft lodge"),("2","Prep baths")],
 [("dining.html","dining.jpg","The <em>kitchen</em>","Same staff."),
  ("lodge.html","lodge.jpg","The <em>Lodge</em>","Bridal party rooms."),
- ("contact.html","ranch-dog.jpg","See it","Six miles from town.")], generated=True))
+  ("contact.html","ranch-dog.jpg","See it","Six miles from town.")], generated=True, gen_note="Architectural rendering of the lodge pavilion — not a photograph."))
 
 add("rates.html", page(0, "Rates — Red Bank Outfitters",
 "Call (530) 529-9435 for current Red Bank Outfitters hunt and lodging rates. Blacktail hunts are 3-day all-inclusive.",
@@ -880,7 +880,7 @@ add("news.html", page(0, "News — Red Bank Outfitters",
 "Around the <em>ranch.</em>",
 "The public archive on the old site runs 2018–2020. For this season, call the lodge.",
 [("Archive","2018–2020"),("Now","Call")],
-"dogs-water.jpg", "Bird dogs on the ranch",
+"ranch-gate.jpg", "A timber ranch gate on a golden hillside at dusk",
 '''<p class="deck">Their published newsletters are still on the old WordPress. We are not inventing new ranch news.</p>
 <ul>
 <li>October 2020 — Around the Ranch newsletter</li>
@@ -890,7 +890,7 @@ add("news.html", page(0, "News — Red Bank Outfitters",
 </ul>
 <p>For current bird numbers, hog activity, and open weekends, call {phone}.</p>'''.format(phone=PHONE),
 [],
-DEFAULT_REL))
+DEFAULT_REL, generated=True))
 
 # Species
 add("upland/bobwhite.html", page(1, "Southern-Style Bob White Quail — Red Bank Outfitters",
